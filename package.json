@@ -4,7 +4,7 @@
   "main": "main.js",
   "type": "module",
   "scripts": {
-       "start": "pm2 start main.js --name 'my-app' --watch"
+       "start": "node ."
   },
   "keywords": [],
   "author": "",
