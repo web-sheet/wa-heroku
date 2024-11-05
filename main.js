@@ -21,6 +21,9 @@ server.listen(3000, () => {
 
 app.use(express.json());
 app.use(express.static('public')); 
+
+app.get('/favicon.ico', (req, res) => res.status(204)); // Respond with no content
+
 app.post('/sendMessage', async (req, res) => {
     const { number, message } = req.body;
     try {
