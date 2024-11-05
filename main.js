@@ -6,7 +6,7 @@ import path from 'path';
 import http from 'http';
 import { Server } from 'socket.io';
 
-const puppeteer = require('puppeteer-core');
+import puppeteer from 'puppeteer-core';  
 
 const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
