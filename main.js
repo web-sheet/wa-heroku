@@ -5,24 +5,22 @@ import express from 'express';
 import path from 'path';
 import http from 'http';
 import { Server } from 'socket.io';
-
 import puppeteer from 'puppeteer-core';  
-
-
-
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-server.listen(3000, () => {
-    console.log('Server is running on port 3000');
+const PORT = process.env.PORT || 3000; // Use Heroku's port or default to 3000
+server.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
 
 app.use(express.json());
 app.use(express.static('public')); 
 
-app.get('/favicon.ico', (req, res) => res.status(204)); // Respond with no content
+// Handle favicon requests
+app.get('/favicon.ico', (req, res) => res.status(204));
 
 app.post('/sendMessage', async (req, res) => {
     const { number, message } = req.body;
@@ -40,21 +38,15 @@ app.get('/qr', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-const client = new Client({ puppeteer: { headless: true,args: ['--no-sandbox', '--disable-setuid-sandbox']} });
+const client = new Client({ puppeteer: { headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] } });
 
 client.on('ready', () => {
     console.log('Client is ready!');
-
-              
 });
 
 client.on('qr', qr => {
-    // Generate QR code and send it to the frontend
     qrcode.generate(qr, { small: true });
-    // Emit the QR code to the frontend
-    io.emit('qr', qr); // Using Socket.IO to send QR code to the client
-
-      
+    io.emit('qr', qr); // Emit the QR code to the frontend
 });
 
 // Handle incoming messages
@@ -66,7 +58,6 @@ client.on('message_create', async (message) => {
     const messageBody = message.body;
     console.log(messageBody);
 
-    // Handle location messages
     if (message.type === 'location') {
         const { latitude, longitude } = message.location;
         console.log(`Received location: Latitude: ${latitude}, Longitude: ${longitude}`);
@@ -119,12 +110,14 @@ async function handleResponse(message) {
     }
 }
 
-
-
-// Function to send message to a specific number
 async function sendMessageToNumber(number, message) {
-    const chatId = `${number}@c.us`; // WhatsApp chat ID format
-    await client.sendMessage(chatId, message);
+    try {
+        const chatId = `${number}@c.us`; // WhatsApp chat ID format
+        await client.sendMessage(chatId, message);
+    } catch (error) {
+        console.error('Error sending message:', error);
+        throw new Error('Failed to send message'); // Rethrow the error for further handling
+    }
 }
 
 client.initialize();
