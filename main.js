@@ -9,7 +9,13 @@ import puppeteer from 'puppeteer-core';
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+    },
+    transports: ['websocket', 'polling'] // Ensure both transports are available
+});
 
 const PORT = process.env.PORT || 3000; // Use Heroku's port or default to 3000
 server.listen(PORT, () => {
