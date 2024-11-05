@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(express.static('public')); 
 
 // Handle favicon requests
-app.get('/favicon.ico', (req, res) => res.status(204));
+ 
 
 app.post('/sendMessage', async (req, res) => {
     const { number, message } = req.body;
