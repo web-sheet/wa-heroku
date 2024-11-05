@@ -37,7 +37,7 @@ app.get('/qr', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-const client = new Client({ puppeteer: { headless: true,args: ['--no-sandbox', '--disable-setuid-sandbox']}, session: sessionCfg });
+const client = new Client({ puppeteer: { headless: true,args: ['--no-sandbox', '--disable-setuid-sandbox']} });
 
 client.on('ready', () => {
     console.log('Client is ready!');
