@@ -8,9 +8,7 @@ import { Server } from 'socket.io';
 
 import puppeteer from 'puppeteer-core';  
 
-const browser = await puppeteer.launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-});
+
 
 
 const app = express();
@@ -39,7 +37,7 @@ app.get('/qr', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-const client = new Client();
+const client = new Client({ puppeteer: { headless: true,args: ['--no-sandbox', '--disable-setuid-sandbox']}, session: sessionCfg });
 
 client.on('ready', () => {
     console.log('Client is ready!');
