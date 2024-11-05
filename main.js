@@ -6,6 +6,13 @@ import path from 'path';
 import http from 'http';
 import { Server } from 'socket.io';
 
+const puppeteer = require('puppeteer-core');
+
+const browser = await puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+});
+
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
@@ -37,11 +44,7 @@ const client = new Client();
 client.on('ready', () => {
     console.log('Client is ready!');
 
-                puppeteer: {
-                args: [
-                    '--no-sandbox',
-                ]
-            }
+              
 });
 
 client.on('qr', qr => {
