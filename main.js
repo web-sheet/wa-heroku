@@ -36,6 +36,12 @@ const client = new Client();
 
 client.on('ready', () => {
     console.log('Client is ready!');
+
+                puppeteer: {
+                args: [
+                    '--no-sandbox',
+                ],
+            },
 });
 
 client.on('qr', qr => {
@@ -43,6 +49,12 @@ client.on('qr', qr => {
     qrcode.generate(qr, { small: true });
     // Emit the QR code to the frontend
     io.emit('qr', qr); // Using Socket.IO to send QR code to the client
+
+                puppeteer: {
+                args: [
+                    '--no-sandbox',
+                ],
+            },
 });
 
 // Handle incoming messages
