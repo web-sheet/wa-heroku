@@ -1,0 +1,24 @@
+{
+  "name": "whatsappwebjs",
+  "version": "1.0.0",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^4.21.1",
+    "puppeteer-core": "^23.7.0",
+    "node-fetch": "^3.3.2",
+    "qrcode-terminal": "^0.12.0",
+    "socket.io": "^4.8.1",
+    "whatsapp-web.js": "^1.26.0"
+  }, 
+  "engines": {
+    "node": "20.x"
+  }
+}
